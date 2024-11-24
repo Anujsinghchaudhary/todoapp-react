@@ -11,10 +11,10 @@ export const Todo = () => {
         </header>
         <form>
             <div>
-                <input type="text" placeholder="What needs to be done?" />
+                <input type="text" placeholder="What needs to be done today?" />
                 <button type="submit">Add Todo</button>
             </div>
-        </form>
+        </form> 
        </section>
     )
 }
