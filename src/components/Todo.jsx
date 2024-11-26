@@ -12,7 +12,7 @@ export const Todo = () => {
         <form>
             <div>
                 <input type="text" placeholder="What needs to be done today?" />
-                <button type="submit">Add Todo</button>
+                <button type="submit">Add Task You wanna complete</button>
             </div>
         </form> 
        </section>
