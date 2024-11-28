@@ -11,7 +11,7 @@ export const Todo = () => {
         </header>
         <form>
             <div>
-                <input type="text" placeholder="What needs to be done today?" />
+                <input type="text" placeholder="What needs to be done today buddy?" />
                 <button type="submit">Add Task You wanna complete</button>
             </div>
         </form> 
