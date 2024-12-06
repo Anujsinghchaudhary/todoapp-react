@@ -1,87 +1,32 @@
-import { useState } from "react";
-import "./Todo.css";
-import { TodoForm } from "./TodoForm";
-import { TodoList } from "./TodoList";
-import { TodoDate } from "./TodoDate";
-import {
-  getLocalStorageTodoData,
-  setLocalStorageTodoData,
-} from "./TodoLocalStorage";
-
+import React from 'react'
+import todo_icon from '../assets/todo_icon.png'
+import { Todoitems } from './Todoitems';
+import { useRef } from 'react';
 export const Todo = () => {
-  const [task, setTask] = useState(() => getLocalStorageTodoData());
-
-  const handleFormSubmit = (inputValue) => {
-    const { id, content, checked } = inputValue;
-
-    //to check if the input field is empty or not
-    if (!content) return;
-
-    // to check if the data is already existing or not
-    // if (task.includes(inputValue)) return;
-    const ifTodoContentMatched = task.find(
-      (curTask) => curTask.content === content
-    );
-    if (ifTodoContentMatched) return;
-
-    setTask((prevTask) => [...prevTask, { id, content, checked }]);
-  };
-
-  //todo add data to localStorage
-  setLocalStorageTodoData(task);
-
-  //todo handleDeleteTodo function
-  const handleDeleteTodo = (value) => {
-    const updatedTask = task.filter((curTask) => curTask.content !== value);
-    setTask(updatedTask);
-  };
-
-  //todo handleClearTodoData functionality
-  const handleClearTodoData = () => {
-    setTask([]);
-  };
-
-  //todo handleCheckedTodo functionality
-  const handleCheckedTodo = (content) => {
-    const updatedTask = task.map((curTask) => {
-      if (curTask.content === content) {
-        return { ...curTask, checked: !curTask.checked };
-      } else {
-        return curTask;
-      }
-    });
-    setTask(updatedTask);
-  };
-
+    const inputRef = useRef();
+     const add= () =>{
+        const inputText = inputRef.current.value.trim();
+        console.log(inputText);
+     }
   return (
-    <section className="todo-container">
-      <header>
-        <h1>Todo List</h1>
-        <TodoDate />
-      </header>
+    <div className='bg-white place-self-center w-11/12 max-w-md flex flex-col p-7 min-h-[550px] rounded-xl'>
+    {/*title*/}
+    <div className='flex itmes-center mt-7 gap-2'>
+        <img className='w-8' src={todo_icon} alt=""/>
+        <h1 className='text-3xl font-semibold'>Todo List</h1>
+    </div>
+    {/*input*/}
+    <div className='flex item-center m-7 bg-grey-200 rounded-full'>
+        <input ref={inputRef} className='bg-transparent border-0 outline-none flex-1 h-14 pl-6 pr-2 placeholder:text-slate-600' type="text" placeholder='Add your task'/>
+        <button onClick={add} className='border-none rounded-full bg-blue-600 w-32 h14 text-whote text-lg font medium cursor-pointer hover:bg-red-700' >Add +</button>
+    </div>
+       {/*todo-list*/}
+       <div>
+        <Todoitems text="lean coading"/>
+        <Todoitems text="lean coading"/>
+       </div>
+    </div>
+  )
+}
 
-      <TodoForm onAddTodo={handleFormSubmit} />
-
-      <section className="myUnOrdList">
-        <ul>
-          {task.map((curTask) => {
-            return (
-              <TodoList
-                key={curTask.id}
-                data={curTask.content}
-                checked={curTask.checked}
-                onHandleDeleteTodo={handleDeleteTodo}
-                onHandleCheckedTodo={handleCheckedTodo}
-              />
-            );
-          })}
-        </ul>
-      </section>
-      <section>
-        <button className="clear-btn" onClick={handleClearTodoData}>
-          Clear all
-        </button>
-      </section>
-    </section>
-  );
-};
+export default Todo;
