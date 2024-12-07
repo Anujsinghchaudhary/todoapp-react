@@ -2,11 +2,24 @@ import React from 'react'
 import todo_icon from '../assets/todo_icon.png'
 import { Todoitems } from './Todoitems';
 import { useRef } from 'react';
+import { useState } from 'react';
 export const Todo = () => {
+  const [todolist ,setTodolist] = useState([]);
     const inputRef = useRef();
      const add= () =>{
         const inputText = inputRef.current.value.trim();
-        console.log(inputText);
+
+        if(inputText === ""){
+            return null;
+        }
+
+        const newTodo={
+          id: Date.now(),
+          text: inputText,
+          iscompleted: false,
+        }
+        setTodolist((prev)=>[...prev,newTodo]);
+        inputRef.current.value = "";
      }
   return (
     <div className='bg-white place-self-center w-11/12 max-w-md flex flex-col p-7 min-h-[550px] rounded-xl'>
@@ -22,6 +35,9 @@ export const Todo = () => {
     </div>
        {/*todo-list*/}
        <div>
+         {todolist.map((item,index)=>(
+            <Todoitems key={index} text={item.text} isCompleted={item.iscompleted}/>
+         ))}
         <Todoitems text="lean coading"/>
         <Todoitems text="lean coading"/>
        </div>
