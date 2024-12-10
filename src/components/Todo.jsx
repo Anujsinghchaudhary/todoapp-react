@@ -18,10 +18,15 @@ export const Todo = () => {
       text: inputText,
       isCompleted: false,
     };
+
     setTodolist((prev) => [...prev, newTodo]);
     inputRef.current.value = "";
   };
-
+  const deleteTodo = (id) => {
+    setTodolist((prvTodos) =>{
+      return prvTodos.filter((todo) => todo.id!== id)
+    })
+  
   return (
     <div className='bg-white place-self-center w-11/12 max-w-md flex flex-col p-7 min-h-[550px] rounded-xl'>
       {/* title */}
@@ -46,13 +51,9 @@ export const Todo = () => {
       </div>
       {/* todo-list */}
       <div>
-        {todolist.map((item, index) => (
-          <Todoitems 
-            key={index} 
-            text={item.text} 
-            isCompleted={item.isCompleted} 
-          />
-        ))}
+        {todolist.map((item, index) => { return
+         <Todoitems key={index}  text={item.text} id={item.id} isCompleted={item.isCompleted} deleteTodo={deleteTodo}/>
+        })}
       </div>
     </div>
   );
