@@ -1,9 +1,9 @@
-import React, { useRef, useState } from 'react';
+import React, { useEffect,useRef, useState } from 'react';
 import todo_icon from '../assets/todo_icon.png';
 import { Todoitems } from './Todoitems';
 
 export const Todo = () => {
-  const [todolist, setTodolist] = useState([]);
+  const [todolist, setTodolist] = useState(localStorage.getItem("todos")?JSON.parse(localStorage.getItem("todos")):[]);
   const inputRef = useRef();
 
   const add = () => {
@@ -22,11 +22,30 @@ export const Todo = () => {
     setTodolist((prev) => [...prev, newTodo]);
     inputRef.current.value = "";
   };
+
   const deleteTodo = (id) => {
-    setTodolist((prvTodos) =>{
-      return prvTodos.filter((todo) => todo.id!== id)
-    })
-  
+    setTodolist((prevTodos) => {
+      return prevTodos.filter((todo) => todo.id !== id);
+    });
+  };
+
+  const toggle = (id)=>{
+    setTodolist((prevTodos) => {
+      return prevTodos.map((todo) => {
+        if (todo.id === id) {
+          return {
+            ...todo,
+            isCompleted: !todo.isCompleted,
+          };
+        }
+        return todo;
+      });
+    });
+  }
+
+  useEffect(()=>{
+    localStorage.setItem('todolist',JSON.stringify(todolist))
+  },[todolist])
   return (
     <div className='bg-white place-self-center w-11/12 max-w-md flex flex-col p-7 min-h-[550px] rounded-xl'>
       {/* title */}
@@ -51,9 +70,10 @@ export const Todo = () => {
       </div>
       {/* todo-list */}
       <div>
-        {todolist.map((item, index) => { return
-         <Todoitems key={index}  text={item.text} id={item.id} isCompleted={item.isCompleted} deleteTodo={deleteTodo}/>
-        })}
+        {todolist.map((item, index) => (
+          <Todoitems key={index} text={item.text} id={item.id} isCompleted={item.isCompleted} deleteTodo={deleteTodo}
+            toggle={toggle} />
+        ))}
       </div>
     </div>
   );
