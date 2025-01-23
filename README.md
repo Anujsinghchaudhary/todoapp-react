@@ -9,5 +9,4 @@ This todo-app helps users manage their daily tasks efficiently by allowing them 
 Installation
 
 1. Clone the repository:
-   ```sh
    git clone https://github.com/Anujsinghchaudhary/todoapp-react.git
